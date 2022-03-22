@@ -1,34 +1,52 @@
 package fr.dev.resources;
 
-import fr.dev.ConnectionManager;
+import fr.dev.dao.ArticleDao;
 import fr.dev.model.Article;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.sql.*;
+import java.util.List;
 
-@Path("articles") public class ArticleResource {
-    private Connection con = null;
-    private PreparedStatement pstmt = null;
-    private ResultSet rs = null;
+@Path("articles")
+public class ArticleResource {
+    private final ArticleDao articleDao = new ArticleDao();
 
-    @Path("/add") @POST @Consumes(MediaType.APPLICATION_JSON) public void createArticle(Article article) {
-        String rq = "INSERT INTO ARTICLE(libelle, prix) VALUES (?,?)";
-
-        try {
-            System.out.println(article.getIDArticle());
-            con = ConnectionManager.getConnection();
-            this.pstmt = con.prepareStatement(rq);
-            pstmt.setString(1, article.getLibelle());
-            pstmt.setFloat(2, article.getPrix());
-
-            pstmt.execute();
-            System.out.println("Article créé");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.err.println("Erreur, article non créé");
-        }
+    @Path("/add")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Article createArticle(Article article) {
+        return articleDao.createArticle(article);
     }
+
+    @Path("/list")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Article> getArticles() throws SQLException {
+        return articleDao.getArticles();
+    }
+
+    @Path("/list/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Article> getArticleByID(@PathParam("id") String id)
+            throws SQLException {
+        return articleDao.getArticleByID(id);
+    }
+
+    @Path("/update/{id}")
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    public Article findAndUpdateArticle(
+            @PathParam("id") String id, Article article) throws SQLException {
+        return articleDao.findAndUpdateArticle(article, id);
+    }
+
+    @Path("/delete/{id}")
+    @DELETE
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String findArticleAndDeleteByID(@PathParam("id") String id) throws SQLException {
+        return articleDao.findArticleAndDeleteByID(id);
+    }
+
 }
