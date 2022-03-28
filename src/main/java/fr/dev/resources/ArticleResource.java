@@ -1,16 +1,17 @@
 package fr.dev.resources;
 
-import fr.dev.dao.ArticleDao;
+import fr.dev.dao.ArticleDAO;
 import fr.dev.model.Article;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.sql.*;
 import java.util.List;
 
 @Path("articles")
 public class ArticleResource {
-    private final ArticleDao articleDao = new ArticleDao();
+    private final ArticleDAO articleDao = new ArticleDAO();
 
     @Path("/add")
     @POST
@@ -34,6 +35,14 @@ public class ArticleResource {
         return articleDao.getArticleByID(id);
     }
 
+    @Path("/{category}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Article> getArticlesByCategory(@PathParam("category") String category)
+            throws SQLException {
+        return articleDao.getArticlesByCategory(category);
+    }
+
     @Path("/update/{id}")
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
@@ -49,4 +58,11 @@ public class ArticleResource {
         return articleDao.findArticleAndDeleteByID(id);
     }
 
+    @OPTIONS
+    public Response getOptions() {
+        return Response.ok()
+                .header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
+                .header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With").build();
+    }
 }
