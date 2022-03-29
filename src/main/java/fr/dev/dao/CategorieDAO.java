@@ -17,7 +17,7 @@ public class CategorieDAO {
     private ResultSet rs = null;
 
     public Categorie createCategorie(Categorie categorie){
-        String rq = "INSERT INTO CATEGORIE (libelle) VALUES (?)";
+        String rq = "INSERT INTO Categorie (libelle) VALUES (?)";
 
         try {
             pstmt = con.prepareStatement(rq);
@@ -36,7 +36,7 @@ public class CategorieDAO {
     public List<Categorie> getCategories() throws SQLException {
         List<Categorie> data = new ArrayList<>();
 
-        String rq = "SELECT * FROM CATEGORIE";
+        String rq = "SELECT * FROM Categorie";
         pstmt = con.prepareStatement(rq);
 
         rs = pstmt.executeQuery();

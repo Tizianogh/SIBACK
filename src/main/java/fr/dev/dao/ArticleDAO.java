@@ -16,7 +16,7 @@ public class ArticleDAO {
     private ResultSet rs = null;
 
     public Article createArticle(Article article) {
-        String rq = "INSERT INTO ARTICLE(titre, libelle, prix, uuid_categorie, uuid_marque) VALUES (?,?,?,?,?)";
+        String rq = "INSERT INTO Article(titre, libelle, prix, uuid_categorie, uuid_marque) VALUES (?,?,?,?,?)";
 
         try {
             pstmt = con.prepareStatement(rq);
@@ -40,7 +40,7 @@ public class ArticleDAO {
     public List<Article> getArticles() throws SQLException {
         List<Article> data = new ArrayList<>();
 
-        String rq = "SELECT * FROM ARTICLE";
+        String rq = "SELECT * FROM Article";
         pstmt = con.prepareStatement(rq);
 
         rs = pstmt.executeQuery();
@@ -68,7 +68,7 @@ public class ArticleDAO {
     public List<Article> getArticleByID(String uuidArticle) throws SQLException {
         List<Article> data = new ArrayList<>();
 
-        String rq = "SELECT * FROM ARTICLE WHERE UUID_ARTICLE=?";
+        String rq = "SELECT * FROM Article WHERE uuid_article=?";
         pstmt = con.prepareStatement(rq);
         pstmt.setString(1, uuidArticle);
 
@@ -99,10 +99,10 @@ public class ArticleDAO {
         List<Article> data = new ArrayList<>();
 
         String rq = "SELECT *\n"
-                + "FROM ARTICLE, CATEGORIE, MARQUE\n"
-                + "WHERE article.uuid_categorie=categorie.uuid_categorie\n"
-                + "AND article.uuid_marque=marque.uuid_marque\n"
-                + "AND categorie.libelle=?";
+                + "FROM Article, Categorie, Marque\n"
+                + "WHERE Article.uuid_categorie=Categorie.uuid_categorie\n"
+                + "AND Article.uuid_marque=Marque.uuid_marque\n"
+                + "AND Categorie.libelle=?";
 
         pstmt = con.prepareStatement(rq);
         pstmt.setString(1, category);
@@ -137,7 +137,7 @@ public class ArticleDAO {
             return null;
         }
 
-        String rq = "UPDATE ARTICLE SET TITRE=?, LIBELLE=?, PRIX=?, UUID_CATEGORIE=?, UUID_MARQUE=? WHERE UUID_ARTICLE=?";
+        String rq = "UPDATE Article SET titre=?, libelle=?, prix=?, uuid_categorie=?, uuid_marque=? WHERE uuid_article=?";
 
         try {
             pstmt = con.prepareStatement(rq);
@@ -162,7 +162,7 @@ public class ArticleDAO {
             return "Article non existant";
         }
 
-        String rq = "DELETE FROM ARTICLE WHERE UUID_ARTICLE=?";
+        String rq = "DELETE FROM Article WHERE uuid_article=?";
 
         try {
             pstmt = con.prepareStatement(rq);

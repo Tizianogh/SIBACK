@@ -18,7 +18,7 @@ public class MarqueDAO {
     private ResultSet rs = null;
 
     public Marque createMarque(Marque marque) {
-        String rq = "INSERT INTO MARQUE(libelle) VALUES (?)";
+        String rq = "INSERT INTO Marque(libelle) VALUES (?)";
 
         try {
             pstmt = con.prepareStatement(rq);
@@ -37,7 +37,7 @@ public class MarqueDAO {
     public List<Marque> getMarques() throws SQLException {
         List<Marque> data = new ArrayList<>();
 
-        String rq = "SELECT * FROM MARQUE";
+        String rq = "SELECT * FROM Marque";
         pstmt = con.prepareStatement(rq);
 
         rs = pstmt.executeQuery();
