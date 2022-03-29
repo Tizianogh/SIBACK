@@ -1,7 +1,6 @@
 package fr.dev.dao;
 
 import fr.dev.ConnectionManager;
-import fr.dev.model.Article;
 import fr.dev.model.Categorie;
 
 import java.sql.Connection;
