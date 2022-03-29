@@ -8,7 +8,7 @@ public class ConnectionManager {
     private static String DB_URL = "jdbc:mysql://localhost:3306/hightechstore";
     private static String DRIVER_NAME = "com.mysql.cj.jdbc.Driver";
     private static String USER = "root";
-    private static String PASS = "welcome123";
+    private static String PASS = "root";
     private static Connection con;
     private static String URL_STRING;
 

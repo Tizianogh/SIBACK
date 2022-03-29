@@ -16,6 +16,24 @@ public class UtilisateurDAO {
     private PreparedStatement pstmt = null;
     private ResultSet rs = null;
 
+    public Utilisateur createUser(Utilisateur utilisateur) throws SQLException {
+        String rq = "INSERT INTO Utilisateur(mail, mdp, uuid_role) VALUES (?,?,?)";
+        try {
+            pstmt = con.prepareStatement(rq);
+
+            pstmt.setString(1, utilisateur.getMail());
+            pstmt.setString(2, utilisateur.getMdp());
+            pstmt.setString(3, utilisateur.getUuidRole());
+
+            pstmt.execute();
+            System.out.println("Utilisateur créé");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println("Erreur, utilisateur non créé");
+        }
+        return utilisateur;
+    }
+
     public List<Utilisateur> login(Utilisateur utilisateur) throws SQLException {
         List<Utilisateur> data = new ArrayList<>();
 
@@ -29,7 +47,7 @@ public class UtilisateurDAO {
         while (rs.next()) {
             Utilisateur user = new Utilisateur();
 
-            user.setUuidUtilisateur(rs.getString("uui_utilisateur"));
+            user.setUuidUtilisateur(rs.getString("uuid_utilisateur"));
             user.setMail(rs.getString("mail"));
             user.setMdp(rs.getString("mdp"));
             user.setUuidRole(rs.getString("uuid_role"));

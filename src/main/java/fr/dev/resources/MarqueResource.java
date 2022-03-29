@@ -1,8 +1,6 @@
 package fr.dev.resources;
 
-import fr.dev.dao.CategorieDAO;
 import fr.dev.dao.MarqueDAO;
-import fr.dev.model.Categorie;
 import fr.dev.model.Marque;
 
 import javax.ws.rs.*;
