@@ -1,7 +1,6 @@
 package fr.dev.dao;
 
 import fr.dev.ConnectionManager;
-import fr.dev.model.Categorie;
 import fr.dev.model.Utilisateur;
 
 import java.sql.Connection;
@@ -17,19 +16,24 @@ public class UtilisateurDAO {
     private ResultSet rs = null;
 
     public Utilisateur createUser(Utilisateur utilisateur) throws SQLException {
-        String rq = "INSERT INTO Utilisateur(mail, mdp, uuid_role) VALUES (?,?,?)";
+        String rq = "INSERT INTO Utilisateur(mail, mdp, role_libelle) VALUES (?,?,?)";
         try {
             pstmt = con.prepareStatement(rq);
 
             pstmt.setString(1, utilisateur.getMail());
             pstmt.setString(2, utilisateur.getMdp());
-            pstmt.setString(3, utilisateur.getUuidRole());
+            pstmt.setString(3, utilisateur.getRoleLibelle());
 
             pstmt.execute();
             System.out.println("Utilisateur créé");
         } catch (SQLException e) {
             e.printStackTrace();
             System.err.println("Erreur, utilisateur non créé");
+        }
+
+        if (utilisateur == null) {
+            System.err.println("La création de l'utilisateur n'a pas réussi");
+            return null;
         }
         return utilisateur;
     }
@@ -50,7 +54,7 @@ public class UtilisateurDAO {
             user.setUuidUtilisateur(rs.getString("uuid_utilisateur"));
             user.setMail(rs.getString("mail"));
             user.setMdp(rs.getString("mdp"));
-            user.setUuidRole(rs.getString("uuid_role"));
+            user.setRoleLibelle(rs.getString("role_libelle"));
 
             data.add(user);
         }
@@ -59,6 +63,31 @@ public class UtilisateurDAO {
             System.out.println("Aucun compte trouvé avec cet email et ce mdp");
         }
 
+        return data;
+    }
+
+    public List<Utilisateur> getUtilisateurByUUID(String uuid) throws SQLException {
+        List<Utilisateur> data = new ArrayList<>();
+        String rq = "SELECT * FROM Utilisateur WHERE uuid_utilisateur=?";
+        pstmt = con.prepareStatement(rq);
+
+        pstmt.setString(1, uuid);
+        rs = pstmt.executeQuery();
+
+        while (rs.next()) {
+            Utilisateur user = new Utilisateur();
+
+            user.setUuidUtilisateur(rs.getString("uuid_utilisateur"));
+            user.setMail(rs.getString("mail"));
+            user.setMdp(rs.getString("mdp"));
+            user.setRoleLibelle(rs.getString("role_libelle"));
+
+            data.add(user);
+        }
+
+        if (data.isEmpty()) {
+            System.out.println("Aucun compte trouvé pour cet uuid");
+        }
         return data;
     }
 }

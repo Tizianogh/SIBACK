@@ -16,7 +16,7 @@ public class ArticleDAO {
     private ResultSet rs = null;
 
     public Article createArticle(Article article) {
-        String rq = "INSERT INTO Article(titre, libelle, prix, uuid_categorie, uuid_marque) VALUES (?,?,?,?,?)";
+        String rq = "INSERT INTO Article(titre, libelle, prix, uuid_categorie, uuid_marque, url_image) VALUES (?,?,?,?,?,?)";
 
         try {
             pstmt = con.prepareStatement(rq);
@@ -26,6 +26,7 @@ public class ArticleDAO {
             pstmt.setFloat(3, article.getPrix());
             pstmt.setString(4, article.getUuidCategorie());
             pstmt.setString(5, article.getUuidMarque());
+            pstmt.setString(6, article.getUrlImage());
 
             pstmt.execute();
             System.out.println("Article créé");
@@ -54,6 +55,7 @@ public class ArticleDAO {
             article.setPrix(rs.getFloat("prix"));
             article.setUuidCategorie(rs.getString("uuid_categorie"));
             article.setUuidMarque(rs.getString("uuid_marque"));
+            article.setUrlImage(rs.getString("url_image"));
 
             data.add(article);
         }
@@ -83,6 +85,7 @@ public class ArticleDAO {
             article.setPrix(rs.getFloat("prix"));
             article.setUuidCategorie(rs.getString("uuid_categorie"));
             article.setUuidMarque(rs.getString("uuid_marque"));
+            article.setUrlImage(rs.getString("url_image"));
 
             data.add(article);
         }
@@ -118,6 +121,7 @@ public class ArticleDAO {
             article.setPrix(rs.getFloat("prix"));
             article.setUuidCategorie(rs.getString("uuid_categorie"));
             article.setUuidMarque(rs.getString("uuid_marque"));
+            article.setUrlImage(rs.getString("url_image"));
 
             data.add(article);
         }
@@ -137,7 +141,7 @@ public class ArticleDAO {
             return null;
         }
 
-        String rq = "UPDATE Article SET titre=?, libelle=?, prix=?, uuid_categorie=?, uuid_marque=? WHERE uuid_article=?";
+        String rq = "UPDATE Article SET titre=?, libelle=?, prix=?, uuid_categorie=?, uuid_marque=?, url_image=?, WHERE uuid_article=?";
 
         try {
             pstmt = con.prepareStatement(rq);
@@ -147,6 +151,7 @@ public class ArticleDAO {
             pstmt.setString(4, article.getUuidArticle());
             pstmt.setString(5, article.getUuidMarque());
             pstmt.setString(6, foundArticle.get(0).getUuidArticle());
+            pstmt.setString(7, foundArticle.get(0).getUrlImage());
 
             pstmt.executeUpdate();
         } catch (Exception e) {
