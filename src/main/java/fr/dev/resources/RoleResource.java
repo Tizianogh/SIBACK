@@ -20,4 +20,5 @@ public class RoleResource {
     public Role createMarque(Role role) {
         return roleDAO.createRole(role);
     }
+
 }

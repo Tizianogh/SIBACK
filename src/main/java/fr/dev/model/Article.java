@@ -10,16 +10,28 @@ import javax.xml.bind.annotation.XmlRootElement;
     private String uuidCategorie;
     private String uuidMarque;
 
+    private String urlImage;
+
     public Article() {
     }
 
-    public Article(String uuidArticle, String titre, String libelle, float prix, String uuidCategorie, String uuidMarque) {
+    public void setUrlImage(String urlImage) {
+        this.urlImage = urlImage;
+    }
+
+    public String getUrlImage() {
+        return urlImage;
+    }
+
+    public Article(String uuidArticle, String titre, String libelle, float prix, String uuidCategorie, String uuidMarque,
+            String urlImage) {
         this.uuidArticle = uuidArticle;
         this.titre = titre;
         this.libelle = libelle;
         this.prix = prix;
         this.uuidCategorie = uuidCategorie;
         this.uuidMarque = uuidMarque;
+        this.urlImage = urlImage;
     }
 
     public String getUuidCategorie() {

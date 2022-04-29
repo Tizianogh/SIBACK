@@ -7,16 +7,16 @@ public class Utilisateur {
     private String uuidUtilisateur;
     private String mail;
     private String mdp;
-    private String uuidRole;
+    private String roleLibelle;
 
     public Utilisateur() {
     }
 
-    public Utilisateur(String uuidUtilisateur, String mail, String mdp, String uuidRole) {
+    public Utilisateur(String uuidUtilisateur, String mail, String mdp, String roleLibelle) {
         this.uuidUtilisateur = uuidUtilisateur;
         this.mail = mail;
         this.mdp = mdp;
-        this.uuidRole = uuidRole;
+        this.roleLibelle = roleLibelle;
     }
 
     public String getUuidUtilisateur() {
@@ -31,8 +31,8 @@ public class Utilisateur {
         return mdp;
     }
 
-    public String getUuidRole() {
-        return uuidRole;
+    public String getRoleLibelle() {
+        return roleLibelle;
     }
 
     public void setUuidUtilisateur(String uuidUtilisateur) {
@@ -47,7 +47,7 @@ public class Utilisateur {
         this.mdp = mdp;
     }
 
-    public void setUuidRole(String uuidRole) {
-        this.uuidRole = uuidRole;
+    public void setRoleLibelle(String roleLibelle) {
+        this.roleLibelle = roleLibelle;
     }
 }
