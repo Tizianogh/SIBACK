@@ -54,7 +54,7 @@ public class ArticleResource {
     @Path("/delete/{id}")
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
-    public String findArticleAndDeleteByID(@PathParam("id") String id) throws SQLException {
+    public List<Article> findArticleAndDeleteByID(@PathParam("id") String id) throws SQLException {
         return articleDao.findArticleAndDeleteByID(id);
     }
 

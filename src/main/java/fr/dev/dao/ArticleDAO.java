@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ArticleDAO {
@@ -141,30 +142,31 @@ public class ArticleDAO {
             return null;
         }
 
-        String rq = "UPDATE Article SET titre=?, libelle=?, prix=?, uuid_categorie=?, uuid_marque=?, url_image=?, WHERE uuid_article=?";
+        String rq = "UPDATE Article SET titre=?, libelle=?, prix=?, uuid_categorie=?, uuid_marque=?, url_image=? WHERE uuid_article=?";
 
         try {
             pstmt = con.prepareStatement(rq);
             pstmt.setString(1, article.getTitre());
             pstmt.setString(2, article.getLibelle());
             pstmt.setFloat(3, article.getPrix());
-            pstmt.setString(4, article.getUuidArticle());
+            pstmt.setString(4, article.getUuidCategorie());
             pstmt.setString(5, article.getUuidMarque());
-            pstmt.setString(6, foundArticle.get(0).getUuidArticle());
-            pstmt.setString(7, foundArticle.get(0).getUrlImage());
+            pstmt.setString(6, article.getUrlImage());
+            pstmt.setString(7, foundArticle.get(0).getUuidArticle());
 
             pstmt.executeUpdate();
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
             System.out.println(e + "Erreur, modification échouée.");
         }
 
         return article;
     }
 
-    public String findArticleAndDeleteByID(String uuid) throws SQLException {
+    public List<Article> findArticleAndDeleteByID(String uuid) throws SQLException {
         List<Article> foundArticle = this.getArticleByID(uuid);
         if (foundArticle.isEmpty()) {
-            return "Article non existant";
+            return Collections.emptyList();
         }
 
         String rq = "DELETE FROM Article WHERE uuid_article=?";
@@ -178,6 +180,8 @@ public class ArticleDAO {
             System.out.println(e + "data insert unsuccess.");
         }
 
-        return String.format("Article %s supprimé", foundArticle.get(0).getUuidArticle());
+        List<Article> data = this.getArticles();
+
+        return data;
     }
 }
