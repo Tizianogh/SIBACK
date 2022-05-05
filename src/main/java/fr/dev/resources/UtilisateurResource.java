@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response;
 import java.sql.SQLException;
 import java.util.List;
 
+import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 
 @Path("users")
@@ -33,7 +34,12 @@ public class UtilisateurResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Utilisateur createArticle(Utilisateur utilisateur) throws SQLException {
-        return utilisateurDAO.createUser(utilisateur);
+    public Response createUser(Utilisateur utilisateur) throws SQLException {
+        Utilisateur user = utilisateurDAO.createUser(utilisateur);
+        if(user == null){
+            return Response.status(BAD_REQUEST).entity("Un compte avec cet email existe déjà").build();
+        }
+
+        return Response.ok(user, MediaType.APPLICATION_JSON).build();
     }
 }
